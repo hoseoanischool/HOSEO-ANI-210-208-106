@@ -1,10 +1,10 @@
 // ====== 설정 ======
-const ROOMS = ["210호", "106호", "208호", "212호"]; // 208호 추가
+const ROOMS = ["210호", "106호", "208호", "212호"]; // 114호 대신 208호로 변경
 
 const SEATS_BY_ROOM = {
   "210호": Array.from({ length: 35 }, (_, i) => String(i + 1)),
   "106호": Array.from({ length: 32 }, (_, i) => String(i + 1)),
-  "208호": Array.from({ length: 36 }, (_, i) => String(i + 1)), // 36석 설정
+  "208호": Array.from({ length: 36 }, (_, i) => String(i + 1)), // 평면도에 맞춰 36석 설정
   "212호": Array.from({ length: 32 }, (_, i) => String(i + 1)),
 };
 
@@ -16,7 +16,7 @@ const fixedSeatsByRoom = {
     "20": "장아라", "24": "박소윤", "25": "박지혜", "27": "장시은", "28": "이현아",
   },
   "106호": { "14": "김정민" },
-  "208호": {}, // 208호 고정좌석 필요시 여기에 추가
+  "208호": {}, // 208호 고정좌석 필요 시 여기에 추가
   "212호": {}
 };
 
@@ -25,7 +25,7 @@ const BANNED_USERS = [
   { name: "키커바", studentId: "12340000" }
 ];
 
-// CSV 복사 기능 관리자 비밀번호 (조교님이 정하신 번호로 수정하세요)
+// CSV 복사 기능 관리자 비밀번호 (조교님의 기존 비밀번호 유지)
 const ADMIN_PASSWORD = '0415405841-2025-2-0821'; 
 
 const KST_OFFSET_MIN = 9 * 60; // KST +09:00
@@ -215,85 +215,4 @@ async function submitBooking() {
     return;
   }
 
-  const seatRef = db.ref(`bookings/${activeRoom}/${activeDateKey}/${selectedSeat}`);
-  await seatRef.set({ name, studentId: sid, phone, createdAt: Date.now() });
-
-  const profileName = `${activeRoom}-${selectedSeat}-${sid}-${name}`;
-  closeModal();
-  showConfirmationModal(profileName);
-}
-
-async function searchReservation() {
-  const name = $searchName.value.trim();
-  const sid = $searchStudentId.value.trim();
-  const phone = $searchPhone.value.trim();
-
-  $reservationList.innerHTML = "";
-  $openChatLinkContainer.innerHTML = "";
-
-  if (!name || !sid || !phone) { alert("모두 입력해주세요."); return; }
-
-  const allRoomsBookings = await db.ref("bookings").get();
-  const roomsData = allRoomsBookings.val() || {};
-  const results = [];
-
-  for (const [room, roomBookings] of Object.entries(roomsData)) {
-    for (const [date, dayBookings] of Object.entries(roomBookings)) {
-      Object.entries(dayBookings).forEach(([seat, v]) => {
-        if (v.name === name && v.studentId === sid && v.phone === phone) {
-          results.push({ room, date, seat, ...v });
-        }
-      });
-    }
-  }
-
-  if (results.length === 0) { $reservationList.textContent = "내역이 없습니다."; return; }
-
-  $openChatLinkContainer.innerHTML = `<a href="카톡방링크">▶ 오픈채팅 바로가기</a>`;
-
-  results.forEach(res => {
-    const row = document.createElement("div");
-    row.className = "res-item";
-    row.innerHTML = `<div><strong>${res.date}</strong> · ${res.room} ${res.seat}번</div>
-                     <button onclick="cancelBooking('${res.room}','${res.date}','${res.seat}')">취소</button>`;
-    $reservationList.appendChild(row);
-  });
-}
-
-async function copyCsv() {
-    const inputPassword = prompt("관리자 비밀번호:");
-    if (inputPassword !== ADMIN_PASSWORD) { alert("틀렸습니다."); return; }
-    const snap = await db.ref(`bookings/${activeRoom}/${activeDateKey}`).get();
-    const data = snap.val() || {};
-    const seatsInRoom = SEATS_BY_ROOM[activeRoom] || [];
-    let csv = "seatId,name,studentId,phone\n";
-    seatsInRoom.forEach(seat => {
-      const r = data[seat] || {};
-      csv += `${seat},${r.name||""},${r.studentId||""},${r.phone||""}\n`;
-    });
-    await navigator.clipboard.writeText(csv);
-    alert("CSV 복사됨");
-}
-
-function showConfirmationModal(profileName) {
-  $confirmationMessage.innerHTML = `프로필: <strong>${profileName}</strong><br><a href="카톡방링크">▶ 카톡방 입장</a>`;
-  $confirmationModal.classList.add("show");
-}
-
-function closeConfirmationModal() { $confirmationModal.classList.remove("show"); }
-
-function attachBookingsListener() {
-  if (bookingsUnsub) bookingsRef.off("value", bookingsUnsub);
-  bookingsRef = db.ref(`bookings/${activeRoom}/${activeDateKey}`);
-  bookingsUnsub = bookingsRef.on("value", snap => renderSeats(snap.val()));
-}
-
-$modalCloseBtn.onclick = closeModal;
-$modalSubmitBtn.onclick = submitBooking;
-$searchBtn.onclick = searchReservation;
-$copyCsvBtn.onclick = copyCsv;
-$confirmationCloseBtn.onclick = closeConfirmationModal;
-
-renderRoomTabs();
-renderWeekTabs();
-attachBookingsListener();
+  const seatRef = db.ref(`bookings/${activeRoom}/${activeDateKey}/${
