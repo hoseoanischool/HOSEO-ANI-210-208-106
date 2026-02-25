@@ -24,16 +24,14 @@
 
   <div id="seatLayout" class="seat-container"></div>
 
-  <div id="bookingModal" class="modal" aria-hidden="true">
+  <div id="bookingModal" class="modal">
     <div class="modal-content">
       <h2 id="modalTitle">좌석 예약</h2>
-      <input id="modalName" placeholder="이름(예: 이OO)"/>
+      <input id="modalName" placeholder="이름"/>
       <input id="modalStudentId" placeholder="학번"/>
       <input id="modalPhoneNumber" placeholder="나만의 4자리 숫자"/>
-      <div class="modal-actions">
-        <button id="modalSubmitBtn">예약하기</button>
-        <button id="modalCloseBtn">닫기</button>
-      </div>
+      <button id="modalSubmitBtn">예약하기</button>
+      <button id="modalCloseBtn">닫기</button>
     </div>
   </div>
 
@@ -43,15 +41,10 @@
   <div class="search-bar">
     <input id="searchName" placeholder="이름"/>
     <input id="searchStudentId" placeholder="학번"/>
-    <input id="searchPhoneNumber" placeholder="나만의 4자리 숫자"/>
+    <input id="searchPhoneNumber" placeholder="4자리 숫자"/>
     <button id="searchBtn">조회</button>
-    <button id="copyCsvBtn">CSV복사</button>
   </div>
   <div id="reservationList"></div>
-
-  <div class="hint" style="color:red; font-weight: bold; margin-top: 20px;">
-    4자리 숫자를 까먹으신 경우, 과사무실에 본인이 직접 방문하셔서 실습조교에게 문의 바랍니다.
-  </div>
 
   <script>
     const firebaseConfig = {
