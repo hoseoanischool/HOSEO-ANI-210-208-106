@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>야작 좌석 예약</title>
   <link rel="stylesheet" href="styles.css"/>
-
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
@@ -51,10 +50,10 @@
   <h2>예약 조회 및 취소</h2>
   <div id="openChatLinkContainer" class="hint" style="margin-bottom: 15px;"></div>
 
-  <div class="search-bar">
-    <input id="searchName" placeholder="이름"/>
-    <input id="searchStudentId" placeholder="학번"/>
-    <input id="searchPhoneNumber" placeholder="나만의 4자리 숫자"/>
+  <div class="search-bar" style="text-align:center;">
+    <input id="searchName" placeholder="이름" style="display:inline-block; width:120px;"/>
+    <input id="searchStudentId" placeholder="학번" style="display:inline-block; width:150px;"/>
+    <input id="searchPhoneNumber" placeholder="나만의 4자리 숫자" style="display:inline-block; width:120px;"/>
     <button id="searchBtn">조회</button>
     <button id="copyCsvBtn" title="관리자용 CSV 복사">CSV복사</button>
   </div>
@@ -65,7 +64,6 @@
   </div>
 
   <script>
-    // 조교님의 원래 파일에 있던 진짜 설정값으로 채워넣었습니다.
     const firebaseConfig = {
       apiKey: "AIzaSyBDJJZpTEKecGQR4txv__jKob-f8IF3quI",
       authDomain: "test-b8438.firebaseapp.com",
@@ -73,7 +71,7 @@
       projectId: "test-b8438",
       storageBucket: "test-b8438.firebasestorage.app",
       messagingSenderId: "226140307403",
-      appId: "1:226140307403:web:d473b4495a4ef0928c804e",
+      appId: "1:226140307403:web:d473b4495a4ef0928c804e"
     };
     firebase.initializeApp(firebaseConfig);
     window.db = firebase.database();
