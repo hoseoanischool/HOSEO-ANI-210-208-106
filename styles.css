@@ -1,14 +1,12 @@
-body { font-family: system-ui, sans-serif; padding: 20px; background: #f2f2f2; }
-h1, h2 { text-align: center; }
-.hint { text-align: center; font-size: 12px; color: #666; margin-bottom: 8px; }
+/* 기본 레이아웃 설정 */
+.seat-container {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+}
 
-.room-tabs, .week-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-.room-tabs button, .week-tabs button { border: 1px solid #ccc; background: #fff; padding: 8px 12px; border-radius: 20px; cursor: pointer; }
-.room-tabs button.active, .week-tabs button.active { background: #222; color: #fff; }
-
-.seat-container { display: grid; gap: 10px; justify-content: center; margin: 20px auto; }
-
-/* 208호 격자 배치 (8열 구성) */
+/* 208호 전용 격자 지도 (8열 구성) */
 .seat-container.room-208 {
     grid-template-columns: repeat(8, 60px);
     grid-template-areas:
@@ -23,32 +21,56 @@ h1, h2 { text-align: center; }
         ". s24 s25 s26 . s34 s35 s36";
 }
 
-/* 좌석 공통 디자인 */
-.seat { width: 60px; height: 60px; background: #4CAF50; color: white; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
-.seat.booked { background: #e74c3c; }
-.seat.fixed { background: gray; cursor: not-allowed; }
+/* 좌석 공통 디자인 (원래 스타일 유지) */
+.seat {
+    width: 60px;
+    height: 60px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+.seat.booked { background: #e74c3c; } /* 예약됨 */
+.seat.fixed { background: #95a5a6; cursor: not-allowed; } /* 고정석 */
 
-/* 208호 개별 좌석 위치 연결 */
-.room-208 .seat[data-seat-number="1"] { grid-area: s1; } .room-208 .seat[data-seat-number="2"] { grid-area: s2; }
-.room-208 .seat[data-seat-number="3"] { grid-area: s3; } .room-208 .seat[data-seat-number="4"] { grid-area: s4; }
-.room-208 .seat[data-seat-number="5"] { grid-area: s5; } .room-208 .seat[data-seat-number="6"] { grid-area: s6; }
-.room-208 .seat[data-seat-number="7"] { grid-area: s7; } .room-208 .seat[data-seat-number="8"] { grid-area: s8; }
-.room-208 .seat[data-seat-number="9"] { grid-area: s9; } .room-208 .seat[data-seat-number="10"] { grid-area: s10; }
-.room-208 .seat[data-seat-number="11"] { grid-area: s11; } .room-208 .seat[data-seat-number="12"] { grid-area: s12; }
-.room-208 .seat[data-seat-number="13"] { grid-area: s13; } .room-208 .seat[data-seat-number="14"] { grid-area: s14; }
-.room-208 .seat[data-seat-number="15"] { grid-area: s15; } .room-208 .seat[data-seat-number="16"] { grid-area: s16; }
-.room-208 .seat[data-seat-number="17"] { grid-area: s17; } .room-208 .seat[data-seat-number="18"] { grid-area: s18; }
-.room-208 .seat[data-seat-number="19"] { grid-area: s19; } .room-208 .seat[data-seat-number="20"] { grid-area: s20; }
-.room-208 .seat[data-seat-number="21"] { grid-area: s21; } .room-208 .seat[data-seat-number="22"] { grid-area: s22; }
-.room-208 .seat[data-seat-number="23"] { grid-area: s23; } .room-208 .seat[data-seat-number="24"] { grid-area: s24; }
-.room-208 .seat[data-seat-number="25"] { grid-area: s25; } .room-208 .seat[data-seat-number="26"] { grid-area: s26; }
-.room-208 .seat[data-seat-number="27"] { grid-area: s27; } .room-208 .seat[data-seat-number="28"] { grid-area: s28; }
-.room-208 .seat[data-seat-number="29"] { grid-area: s29; } .room-208 .seat[data-seat-number="30"] { grid-area: s30; }
-.room-208 .seat[data-seat-number="31"] { grid-area: s31; } .room-208 .seat[data-seat-number="32"] { grid-area: s32; }
-.room-208 .seat[data-seat-number="33"] { grid-area: s33; } .room-208 .seat[data-seat-number="34"] { grid-area: s34; }
-.room-208 .seat[data-seat-number="35"] { grid-area: s35; } .room-208 .seat[data-seat-number="36"] { grid-area: s36; }
-
-/* 모달 디자인 생략 (기본 유지) */
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); align-items: center; justify-content: center; }
-.modal.show { display: flex; }
-.modal-content { background: #fff; padding: 20px; border-radius: 12px; width: 300px; text-align: center; }
+/* 208호 각 좌석 번호를 지도상의 위치(grid-area)와 연결 */
+.room-208 .seat[data-seat-number="1"] { grid-area: s1; }
+.room-208 .seat[data-seat-number="2"] { grid-area: s2; }
+.room-208 .seat[data-seat-number="3"] { grid-area: s3; }
+.room-208 .seat[data-seat-number="4"] { grid-area: s4; }
+.room-208 .seat[data-seat-number="5"] { grid-area: s5; }
+.room-208 .seat[data-seat-number="7"] { grid-area: s7; }
+.room-208 .seat[data-seat-number="8"] { grid-area: s8; }
+.room-208 .seat[data-seat-number="9"] { grid-area: s9; }
+.room-208 .seat[data-seat-number="10"] { grid-area: s10; }
+.room-208 .seat[data-seat-number="11"] { grid-area: s11; }
+.room-208 .seat[data-seat-number="12"] { grid-area: s12; }
+.room-208 .seat[data-seat-number="13"] { grid-area: s13; }
+.room-208 .seat[data-seat-number="14"] { grid-area: s14; }
+.room-208 .seat[data-seat-number="15"] { grid-area: s15; }
+.room-208 .seat[data-seat-number="16"] { grid-area: s16; }
+.room-208 .seat[data-seat-number="17"] { grid-area: s17; }
+.room-208 .seat[data-seat-number="18"] { grid-area: s18; }
+.room-208 .seat[data-seat-number="19"] { grid-area: s19; }
+.room-208 .seat[data-seat-number="20"] { grid-area: s20; }
+.room-208 .seat[data-seat-number="21"] { grid-area: s21; }
+.room-208 .seat[data-seat-number="22"] { grid-area: s22; }
+.room-208 .seat[data-seat-number="23"] { grid-area: s23; }
+.room-208 .seat[data-seat-number="24"] { grid-area: s24; }
+.room-208 .seat[data-seat-number="25"] { grid-area: s25; }
+.room-208 .seat[data-seat-number="26"] { grid-area: s26; }
+.room-208 .seat[data-seat-number="27"] { grid-area: s27; }
+.room-208 .seat[data-seat-number="28"] { grid-area: s28; }
+.room-208 .seat[data-seat-number="29"] { grid-area: s29; }
+.room-208 .seat[data-seat-number="30"] { grid-area: s30; }
+.room-208 .seat[data-seat-number="31"] { grid-area: s31; }
+.room-208 .seat[data-seat-number="32"] { grid-area: s32; }
+.room-208 .seat[data-seat-number="33"] { grid-area: s33; }
+.room-208 .seat[data-seat-number="34"] { grid-area: s34; }
+.room-208 .seat[data-seat-number="35"] { grid-area: s35; }
+.room-208 .seat[data-seat-number="36"] { grid-area: s36; }
